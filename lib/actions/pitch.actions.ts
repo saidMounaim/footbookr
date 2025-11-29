@@ -1,5 +1,6 @@
 "use server";
 
+import { cacheLife, cacheTag } from "next/cache";
 import prisma from "../prisma";
 import { pitchFormSchema } from "../zodSchemas";
 import { z } from "zod";
@@ -37,4 +38,14 @@ export async function createPitch(values: z.infer<typeof pitchFormSchema>) {
     console.error("Server Action Error:", error);
     return { success: false, message: "Internal Server Error" };
   }
+}
+
+export async function getPitchById(pitchId: string) {
+  "use cache";
+  cacheLife("hours");
+  cacheTag("pitch", pitchId);
+  const pitch = await prisma.pitch.findUnique({
+    where: { id: pitchId },
+  });
+  return pitch;
 }
