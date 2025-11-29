@@ -16,7 +16,12 @@ import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { TimeSlot } from "@/constants";
 import { toast } from "sonner";
-import { getAvailableSlots } from "@/lib/actions/booking,actions";
+import {
+  createBooking,
+  getAvailableSlots,
+} from "@/lib/actions/booking,actions";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 interface BookingWidgetProps {
   pricePerHour: number;
@@ -27,6 +32,9 @@ export default function BookingWidget({
   pricePerHour,
   pitchId,
 }: BookingWidgetProps) {
+  const router = useRouter();
+  const { data: session } = authClient.useSession();
+
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
 
@@ -57,12 +65,45 @@ export default function BookingWidget({
   }, [date, pitchId]);
 
   const handleBook = async () => {
-    if (!selectedSlot || !date) return;
+    if (!selectedSlot || !date) {
+      toast.error("Please select a date and time slot.");
+      return;
+    }
+
+    if (selectedSlot && date && !session) {
+      toast.error("Please sign in to book a pitch.");
+      return;
+    }
+
     setIsBooking(true);
     try {
-      console.log("Booking:", { pitchId, date, selectedSlot });
+      const result = await createBooking({
+        pitchId,
+        date,
+        startTime: selectedSlot,
+      });
+
+      if (result.success) {
+        toast.success(result.message);
+        setDate(undefined);
+        setSelectedSlot(null);
+        router.refresh();
+      } else {
+        if (result.errors) {
+          const errorMessages = Object.values(result.errors);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          errorMessages.forEach((errMssg: any) => {
+            errMssg.forEach((msg: string) => toast.error(msg));
+          });
+          return;
+        }
+        toast.error(result.message);
+      }
+
+      setIsBooking(false);
     } catch (error) {
       console.error("Booking failed:", error);
+      toast.error("Booking failed. Please try again.");
     } finally {
       setIsBooking(false);
     }

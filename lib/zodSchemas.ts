@@ -23,3 +23,9 @@ export const pitchFormSchema = z.object({
   ),
   images: z.array(z.string()).min(1, "At least one image is required."),
 });
+
+export const createBookingSchema = z.object({
+  pitchId: z.string().min(1, "Pitch ID is required"),
+  date: z.coerce.date(),
+  startTime: z.string().regex(/^\d{1,2}:\d{2}$/, "Invalid time format"),
+});

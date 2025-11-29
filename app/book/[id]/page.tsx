@@ -3,8 +3,8 @@ import PitchHero from "@/components/shared/book/pitch-hero";
 import PitchAmenities from "@/components/shared/book/pitch-amenities";
 import PitchRules from "@/components/shared/book/pitch-rules";
 import BookingWidget from "@/components/shared/book/booking-widget";
-import { getPitchById } from "@/lib/actions/pitch.actions";
 import { notFound } from "next/navigation";
+import { getPitchById } from "@/lib/data/pitches";
 
 export default async function PitchDetailsPage({
   params,

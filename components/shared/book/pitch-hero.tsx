@@ -17,7 +17,6 @@ interface PitchHeroProps {
 }
 
 export default function PitchHero({ name, type, images }: PitchHeroProps) {
-  console.log(images);
   return (
     <div className="relative w-full rounded-3xl overflow-hidden border border-white/10 shadow-2xl group">
       <Carousel
