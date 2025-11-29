@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/shared/layouts/header";
 import Footer from "@/components/shared/layouts/footer";
 
+import { Toaster } from "sonner";
+
 const font = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -25,6 +27,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+        <Toaster richColors />
       </body>
     </html>
   );

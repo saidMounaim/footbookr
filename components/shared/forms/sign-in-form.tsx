@@ -17,10 +17,14 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 type SignInFormValues = z.infer<typeof signInSchema>;
 
 export default function SignInForm() {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<SignInFormValues>({
@@ -31,12 +35,40 @@ export default function SignInForm() {
     },
   });
 
-  const onSubmit = (values: SignInFormValues) => {
+  const onSubmit = async (values: SignInFormValues) => {
     setIsLoading(true);
     try {
-      console.log(values);
+      await authClient.signIn.email(
+        {
+          email: values.email,
+          password: values.password,
+          callbackURL: "/",
+        },
+        {
+          onRequest: () => {
+            setIsLoading(true);
+          },
+          onSuccess: () => {
+            setIsLoading(false);
+            router.push("/");
+          },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onError: (ctx: any) => {
+            setIsLoading(false);
+            console.log(ctx.error);
+            if (ctx.error.status === 403) {
+              toast.error("Please verify your email address.");
+            } else if (ctx.error.status === 401) {
+              toast.error("Invalid email or password.");
+            } else {
+              toast.error(ctx.error.message);
+            }
+          },
+        }
+      );
     } catch (error) {
       console.log(error);
+      toast.error("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
