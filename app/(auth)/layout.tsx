@@ -1,10 +1,19 @@
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
-export default function AuthLayout({
+export default async function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (session) redirect("/");
+
   return (
     <div className="min-h-screen w-full relative flex items-center justify-center overflow-hidden bg-zinc-950 py-10">
       <Image
