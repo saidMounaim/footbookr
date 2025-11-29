@@ -61,6 +61,7 @@ model User {
   banExpires    DateTime?
   sessions      Session[]
   accounts      Account[]
+  bookings      Booking[]
 
   @@map("user")
 }
@@ -74,4 +75,36 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+model Pitch {
+  id           String      @id @default(cuid())
+  name         String
+  type         String
+  pricePerHour Float
+  description  String      @db.Text
+  images       String[]
+  rules        String[]
+  bookings     Booking[]
+
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@map("pitch")
+}
+
+model Booking {
+  id        String   @id @default(cuid())
+  date      DateTime
+  startTime String
+  endTime   String
+  price     Float
+  pitchId   String
+  pitch     Pitch    @relation(fields: [pitchId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@map("booking")
 }
