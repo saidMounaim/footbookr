@@ -1,7 +1,13 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
+import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
+import UserDropdown from "../user/user-dropdown";
 
 export default function Header() {
+  const { data: session } = authClient.useSession();
+
   return (
     <header className="fixed top-0 z-50 w-full pt-6 px-6">
       <div className="mx-auto max-w-7xl">
@@ -17,19 +23,25 @@ export default function Header() {
           </Link>
 
           <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              className="text-zinc-300 hover:text-white hover:bg-white/5"
-              asChild
-            >
-              <Link href="/sign-in">Log in</Link>
-            </Button>
-            <Button
-              className="rounded-full bg-white text-zinc-950 hover:bg-emerald-400 hover:text-zinc-950 font-bold"
-              asChild
-            >
-              <Link href="/sign-up">Get Started</Link>
-            </Button>
+            {session ? (
+              <UserDropdown />
+            ) : (
+              <>
+                <Button
+                  variant="ghost"
+                  className="text-zinc-300 hover:text-white hover:bg-white/5"
+                  asChild
+                >
+                  <Link href="/sign-in">Log in</Link>
+                </Button>
+                <Button
+                  className="rounded-full bg-white text-zinc-950 hover:bg-emerald-400 hover:text-zinc-950 font-bold"
+                  asChild
+                >
+                  <Link href="/sign-up">Get Started</Link>
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </div>
