@@ -19,7 +19,7 @@ import { toast } from "sonner";
 import {
   createBooking,
   getAvailableSlots,
-} from "@/lib/actions/booking,actions";
+} from "@/lib/actions/booking.actions";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 

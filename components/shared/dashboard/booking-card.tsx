@@ -90,7 +90,7 @@ export default function BookingCard({ booking, type }: BookingCardProps) {
               className="text-emerald-400 hover:text-emerald-300 p-0 h-auto font-semibold text-sm group"
               asChild
             >
-              <Link href={`/book/${booking.pitchId}`}>
+              <Link href={`/bookings/${booking.id}`}>
                 View Details
                 <ArrowRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
               </Link>

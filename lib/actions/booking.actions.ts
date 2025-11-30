@@ -1,6 +1,6 @@
 "use server";
 
-import { startOfDay, endOfDay } from "date-fns";
+import { startOfDay, endOfDay, differenceInHours } from "date-fns";
 import prisma from "../prisma";
 import { ActionState, closingHour, openingHour, TimeSlot } from "@/constants";
 import { revalidatePath, revalidateTag } from "next/cache";
@@ -116,6 +116,63 @@ export async function createBooking(
     return {
       success: false,
       message: error.message || "An unexpected error occurred.",
+    };
+  }
+}
+
+export async function cancelBooking(bookingId: string): Promise<ActionState> {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session) {
+      return { success: false, message: "Unauthorized. Please log in." };
+    }
+
+    const booking = await prisma.booking.findUnique({
+      where: { id: bookingId },
+    });
+
+    if (!booking) {
+      return { success: false, message: "Booking not found." };
+    }
+
+    if (booking.userId !== session.user.id) {
+      return {
+        success: false,
+        message: "You are not authorized to cancel this booking.",
+      };
+    }
+
+    const matchDate = new Date(booking.date);
+    const [hours, minutes] = booking.startTime.split(":").map(Number);
+    matchDate.setHours(hours, minutes, 0, 0);
+
+    const now = new Date();
+    const hoursDifference = differenceInHours(matchDate, now);
+
+    if (hoursDifference < 24) {
+      return {
+        success: false,
+        message:
+          "Cancellations are only allowed up to 24 hours before the match.",
+      };
+    }
+
+    await prisma.booking.delete({
+      where: { id: bookingId },
+    });
+
+    revalidatePath("/dashboard");
+    revalidatePath(`/bookings/${bookingId}`);
+
+    return { success: true, message: "Booking cancelled successfully." };
+  } catch (error) {
+    console.error("Cancellation Error:", error);
+    return {
+      success: false,
+      message: "Internal server error. Please try again.",
     };
   }
 }
