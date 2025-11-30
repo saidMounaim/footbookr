@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/shared/layouts/header";
-import Footer from "@/components/shared/layouts/footer";
 
 import { Toaster } from "sonner";
 
@@ -24,9 +22,7 @@ export default function RootLayout({
       className="h-full bg-zinc-950 text-zinc-50 selection:bg-emerald-500/30"
     >
       <body className={`${font.className} h-full antialiased`}>
-        <Header />
         {children}
-        <Footer />
         <Toaster richColors />
       </body>
     </html>

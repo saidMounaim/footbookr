@@ -18,6 +18,22 @@ export const requireUser = cache(async () => {
   return session;
 });
 
+export const requireAdmin = cache(async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    redirect("/sign-in");
+  }
+
+  if (session && session.user.role !== "admin") {
+    redirect("/");
+  }
+
+  return session;
+});
+
 export async function getUserBookings() {
   const session = await requireUser();
 

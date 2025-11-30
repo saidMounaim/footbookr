@@ -18,7 +18,7 @@ export default async function PitchDetailsPage({
   if (!pitch) notFound();
 
   return (
-    <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-50 font-sans mt-7">
+    <div className="flex flex-col">
       <main className="flex-1 pt-24 pb-20 px-4 md:px-6">
         <div className="container mx-auto max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative">

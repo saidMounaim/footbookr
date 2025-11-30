@@ -33,7 +33,7 @@ export default async function BookingDetailsPage({
   });
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-50 py-12 px-4 flex flex-col items-center mt-15">
+    <div className="flex flex-col items-center mt-15 pb-11">
       <div className="w-full max-w-lg mb-8 flex items-center gap-4">
         <Button
           variant="ghost"

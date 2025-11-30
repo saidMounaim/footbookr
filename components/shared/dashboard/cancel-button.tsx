@@ -31,7 +31,7 @@ export function CancelBookingButton({ bookingId }: { bookingId: string }) {
       if (result.success) {
         toast.success(result.message);
         setIsOpen(false);
-        router.push("/dashboard");
+        router.refresh();
       } else {
         toast.error(result.message);
         setIsOpen(false);

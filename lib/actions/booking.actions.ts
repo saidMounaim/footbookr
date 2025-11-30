@@ -138,7 +138,7 @@ export async function cancelBooking(bookingId: string): Promise<ActionState> {
       return { success: false, message: "Booking not found." };
     }
 
-    if (booking.userId !== session.user.id) {
+    if (booking.userId !== session.user.id && session.user.role !== "admin") {
       return {
         success: false,
         message: "You are not authorized to cancel this booking.",
@@ -152,7 +152,7 @@ export async function cancelBooking(bookingId: string): Promise<ActionState> {
     const now = new Date();
     const hoursDifference = differenceInHours(matchDate, now);
 
-    if (hoursDifference < 24) {
+    if (session.user.role !== "admin" && hoursDifference < 24) {
       return {
         success: false,
         message:
@@ -166,6 +166,8 @@ export async function cancelBooking(bookingId: string): Promise<ActionState> {
 
     revalidatePath("/dashboard");
     revalidatePath(`/bookings/${bookingId}`);
+    revalidatePath(`/admin/bookings/`);
+    revalidatePath(`/admin/dashboard/`);
 
     return { success: true, message: "Booking cancelled successfully." };
   } catch (error) {

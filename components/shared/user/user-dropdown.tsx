@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { getUserInitials } from "@/lib/utils";
+import Link from "next/link";
 
 export default function UserDropdown() {
   const router = useRouter();
@@ -74,17 +75,34 @@ export default function UserDropdown() {
         <DropdownMenuSeparator className="bg-white/10" />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem className="focus:bg-emerald-500/10 focus:text-emerald-400 cursor-pointer">
-            <LayoutDashboard className="mr-2 h-4 w-4" />
-            <span>Dashboard</span>
+          <DropdownMenuItem asChild>
+            <Link
+              href="/dashboard"
+              className="focus:bg-emerald-500/10 focus:text-emerald-400 cursor-pointer w-full flex items-center"
+            >
+              <LayoutDashboard className="mr-2 h-4 w-4" />
+              <span>Dashboard</span>
+            </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem className="focus:bg-emerald-500/10 focus:text-emerald-400 cursor-pointer">
-            <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
+
+          <DropdownMenuItem asChild>
+            <Link
+              href="/profile"
+              className="focus:bg-emerald-500/10 focus:text-emerald-400 cursor-pointer w-full flex items-center"
+            >
+              <User className="mr-2 h-4 w-4" />
+              <span>Profile</span>
+            </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem className="focus:bg-emerald-500/10 focus:text-emerald-400 cursor-pointer">
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
+
+          <DropdownMenuItem asChild>
+            <Link
+              href="/settings"
+              className="focus:bg-emerald-500/10 focus:text-emerald-400 cursor-pointer w-full flex items-center"
+            >
+              <Settings className="mr-2 h-4 w-4" />
+              <span>Settings</span>
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
 

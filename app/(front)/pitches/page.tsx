@@ -6,7 +6,7 @@ export default async function PitchesPage() {
   const pitches = await getAllPitches();
 
   return (
-    <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-50 font-sans">
+    <div className="flex flex-col">
       <main className="flex-1 pt-32 pb-20 px-6">
         <div className="container mx-auto max-w-7xl space-y-10">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
