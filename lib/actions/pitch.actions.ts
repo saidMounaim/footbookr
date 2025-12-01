@@ -1,10 +1,13 @@
 "use server";
 
+import { requireAdmin } from "../data/users";
 import prisma from "../prisma";
 import { pitchFormSchema } from "../zodSchemas";
 import { z } from "zod";
 
 export async function createPitch(values: z.infer<typeof pitchFormSchema>) {
+  await requireAdmin();
+
   try {
     const validated = pitchFormSchema.safeParse(values);
 
@@ -36,5 +39,20 @@ export async function createPitch(values: z.infer<typeof pitchFormSchema>) {
   } catch (error) {
     console.error("Server Action Error:", error);
     return { success: false, message: "Internal Server Error" };
+  }
+}
+
+export async function deletePitch(pitchId: string) {
+  await requireAdmin();
+
+  try {
+    await prisma.pitch.delete({
+      where: { id: pitchId },
+    });
+
+    return { success: true, message: "Pitch deleted successfully." };
+  } catch (error) {
+    console.error("Error deleting pitch:", error);
+    return { success: false, message: "Failed to delete pitch." };
   }
 }

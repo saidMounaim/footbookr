@@ -69,3 +69,17 @@ export async function getBookings(query: string) {
 
   return bookings;
 }
+
+export async function getUsers(query: string) {
+  await requireAdmin();
+
+  const bookings = await prisma.user.findMany({
+    where: {
+      name: { contains: query, mode: "insensitive" },
+      email: { contains: query, mode: "insensitive" },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return bookings;
+}
