@@ -1,13 +1,6 @@
 import Link from "next/link";
-import {
-  LayoutDashboard,
-  Calendar,
-  Users,
-  MapPin,
-  Settings,
-  LogOut,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { LayoutDashboard, Calendar, Users, MapPin } from "lucide-react";
+import LogoutAdminButton from "@/components/shared/admin/logout-admin-button";
 
 export default async function AdminLayout({
   children,
@@ -19,7 +12,6 @@ export default async function AdminLayout({
     { label: "Bookings", href: "/admin/bookings", icon: Calendar },
     { label: "Pitches", href: "/admin/pitches", icon: MapPin },
     { label: "Users", href: "/admin/users", icon: Users },
-    { label: "Settings", href: "/admin/settings", icon: Settings },
   ];
 
   return (
@@ -45,12 +37,7 @@ export default async function AdminLayout({
         </nav>
 
         <div className="p-4 border-t border-white/10">
-          <Button
-            variant="ghost"
-            className="w-full justify-start text-red-400 hover:text-red-300 hover:bg-red-500/10"
-          >
-            <LogOut className="mr-2 h-4 w-4" /> Sign Out
-          </Button>
+          <LogoutAdminButton />
         </div>
       </aside>
 
