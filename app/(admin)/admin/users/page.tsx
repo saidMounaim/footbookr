@@ -136,9 +136,11 @@ export default async function AdminUsersPage({
                   </div>
                 </TableCell>
 
-                {/* 5. Actions */}
                 <TableCell>
-                  <UserActions userId={user.id} />
+                  <UserActions
+                    userId={user.id}
+                    currentRole={user.role as string}
+                  />
                 </TableCell>
               </TableRow>
             ))}
