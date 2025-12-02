@@ -11,6 +11,38 @@ import QRCode from "react-qr-code";
 import { getBooking } from "@/lib/data/bookings";
 import { getBookingStatus } from "@/lib/utils";
 import { CancelBookingButton } from "@/components/shared/dashboard/cancel-button";
+import { Metadata } from "next";
+
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const booking = await getBooking(id);
+
+  if (!booking) {
+    return {
+      title: "Booking Not Found",
+    };
+  }
+
+  return {
+    title: `Booking: ${booking.pitch.name} | Footbookr`,
+    description: `Your booking for ${booking.pitch.name} on ${format(
+      booking.date,
+      "MMMM do, yyyy"
+    )} at ${booking.startTime}`,
+    openGraph: {
+      title: `Booking: ${booking.pitch.name} | Footbookr`,
+      description: `Your booking for ${booking.pitch.name} on ${format(
+        booking.date,
+        "MMMM do, yyyy"
+      )} at ${booking.startTime}`,
+      images: booking.pitch.images?.[0] ? [booking.pitch.images[0]] : [],
+    },
+  };
+}
 
 export default async function BookingDetailsPage({
   params,

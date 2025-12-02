@@ -2,6 +2,18 @@ import { Separator } from "@/components/ui/separator";
 import PitchCard from "@/components/shared/pitches/pitch-card";
 import { getAllPitches } from "@/lib/data/pitches";
 import PitchFilters from "@/components/shared/pitches/pitch-filters";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Browse Pitches | Footbookr",
+  description:
+    "Find and book the perfect football pitch for your match. Browse our selection of 5-a-side and 7-a-side pitches with professional facilities.",
+  openGraph: {
+    title: "Browse Pitches | Footbookr",
+    description:
+      "Find and book the perfect football pitch for your match. Browse our selection of 5-a-side and 7-a-side pitches.",
+  },
+};
 
 export default async function PitchesPage({
   searchParams,

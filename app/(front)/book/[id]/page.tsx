@@ -5,6 +5,36 @@ import PitchRules from "@/components/shared/book/pitch-rules";
 import BookingWidget from "@/components/shared/book/booking-widget";
 import { notFound } from "next/navigation";
 import { getPitchById } from "@/lib/data/pitches";
+import { Metadata } from "next";
+
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const pitch = await getPitchById(id);
+
+  if (!pitch) {
+    return {
+      title: "Pitch Not Found",
+    };
+  }
+
+  return {
+    title: `Book ${pitch.name} | Footbookr`,
+    description:
+      pitch.description ||
+      `Book ${pitch.name} - ${pitch.type} pitch at $${pitch.pricePerHour}/hour. Reserve your slot now!`,
+    openGraph: {
+      title: `Book ${pitch.name} | Footbookr`,
+      description:
+        pitch.description ||
+        `Book ${pitch.name} - ${pitch.type} pitch at $${pitch.pricePerHour}/hour.`,
+      images: pitch.images?.[0] ? [pitch.images[0]] : [],
+    },
+  };
+}
 
 export default async function PitchDetailsPage({
   params,
