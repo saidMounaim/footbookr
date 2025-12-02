@@ -17,6 +17,7 @@ const nextConfig: NextConfig = {
         hostname: "ik.imagekit.io",
       },
     ],
+    unoptimized: true,
   },
 };
 

@@ -34,7 +34,7 @@ export default function PitchHero({ name, type, images }: PitchHeroProps) {
                 alt={`${name} view ${index + 1}`}
                 fill
                 className="object-cover"
-                priority={index === 0}
+                priority
               />
             </CarouselItem>
           ))}
