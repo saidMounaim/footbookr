@@ -17,7 +17,7 @@ import { requireAdmin } from "@/lib/data/users";
 export default async function AdminPitchesPage() {
   await requireAdmin();
 
-  const pitches = await getAllPitches();
+  const pitches = await getAllPitches("");
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">

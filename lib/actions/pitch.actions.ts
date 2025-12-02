@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath, revalidateTag } from "next/cache";
 import { requireAdmin } from "../data/users";
 import prisma from "../prisma";
 import { pitchFormSchema } from "../zodSchemas";
@@ -50,6 +51,9 @@ export async function deletePitch(pitchId: string) {
       where: { id: pitchId },
     });
 
+    revalidatePath("/admin/pitches");
+    revalidatePath("/admin/dashboard");
+    revalidateTag("pitches", "max");
     return { success: true, message: "Pitch deleted successfully." };
   } catch (error) {
     console.error("Error deleting pitch:", error);

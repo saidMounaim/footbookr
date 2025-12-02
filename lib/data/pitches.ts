@@ -3,14 +3,17 @@ import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
 import prisma from "../prisma";
 
-export async function getAllPitches() {
+export async function getAllPitches(type: string) {
   "use cache";
   cacheLife("hours");
   cacheTag("pitches");
 
+  const where = type ? { type: type } : {};
+
   const pitches = await prisma.pitch.findMany({
+    where: where,
     orderBy: {
-      createdAt: "desc",
+      name: "asc",
     },
   });
 

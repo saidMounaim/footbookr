@@ -17,7 +17,7 @@ export default async function AuthLayout({
   return (
     <div className="min-h-screen w-full relative flex items-center justify-center overflow-hidden bg-zinc-950 py-10">
       <Image
-        src="https://placehold.co/1920x1080/022c22/064e3b/png?text=Stadium+Lights"
+        src="/auth-bg.jpg"
         alt="Background"
         fill
         className="object-cover opacity-40"
