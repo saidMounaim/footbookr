@@ -11,7 +11,7 @@ import { getBookings } from "@/lib/data/admin";
 import Search from "@/components/shared/admin/search";
 import { Calendar, Clock, MapPin, Search as SearchIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { CancelBookingButton } from "@/components/shared/dashboard/cancel-button";
+import { BookingActions } from "@/components/shared/admin/booking-actions";
 
 export default async function AdminBookingsPage({
   searchParams,
@@ -139,8 +139,8 @@ export default async function AdminBookingsPage({
                     </span>
                   </TableCell>
 
-                  <TableCell>
-                    <CancelBookingButton bookingId={booking.id} />
+                  <TableCell className="flex items-center justify-end gap-2">
+                    <BookingActions bookingId={booking.id} />
                   </TableCell>
                 </TableRow>
               );

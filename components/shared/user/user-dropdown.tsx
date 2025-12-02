@@ -84,26 +84,6 @@ export default function UserDropdown() {
               <span>Dashboard</span>
             </Link>
           </DropdownMenuItem>
-
-          <DropdownMenuItem asChild>
-            <Link
-              href="/profile"
-              className="focus:bg-emerald-500/10 focus:text-emerald-400 cursor-pointer w-full flex items-center"
-            >
-              <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
-            </Link>
-          </DropdownMenuItem>
-
-          <DropdownMenuItem asChild>
-            <Link
-              href="/settings"
-              className="focus:bg-emerald-500/10 focus:text-emerald-400 cursor-pointer w-full flex items-center"
-            >
-              <Settings className="mr-2 h-4 w-4" />
-              <span>Settings</span>
-            </Link>
-          </DropdownMenuItem>
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator className="bg-white/10" />

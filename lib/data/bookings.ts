@@ -13,7 +13,10 @@ export async function getBooking(bookingId: string) {
     },
   });
 
-  if (!booking || booking.userId !== session.user.id) {
+  if (
+    (!booking || booking.userId !== session.user.id) &&
+    session.user.role !== "admin"
+  ) {
     return null;
   }
 

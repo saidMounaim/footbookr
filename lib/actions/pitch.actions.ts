@@ -36,6 +36,9 @@ export async function createPitch(values: z.infer<typeof pitchFormSchema>) {
       },
     });
 
+    revalidatePath("/admin/pitches");
+    revalidatePath("/admin/dashboard");
+    revalidateTag("pitches", "max");
     return { success: true, message: "Pitch created successfully!" };
   } catch (error) {
     console.error("Server Action Error:", error);

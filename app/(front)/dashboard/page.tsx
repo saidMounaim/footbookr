@@ -3,8 +3,21 @@ import { Button } from "@/components/ui/button";
 import { getUserBookings } from "@/lib/data/users";
 import BookingCard from "@/components/shared/dashboard/booking-card";
 import { getBookingStatus } from "@/lib/utils";
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 
 export default async function DashboardPage() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    redirect("/sign-in");
+  }
+
+  if (session.user.role === "admin") redirect("/admin/dashboard");
+
   const bookings = await getUserBookings();
 
   const live = bookings.filter((b) => getBookingStatus(b) === "live");
@@ -12,7 +25,7 @@ export default async function DashboardPage() {
   const past = bookings.filter((b) => getBookingStatus(b) === "past");
 
   return (
-    <div className="container mx-auto max-w-5xl space-y-12">
+    <div className="container mx-auto max-w-5xl space-y-12 pb-10 min-h-screen">
       <div>
         <h1 className="text-3xl font-bold text-white">My Bookings</h1>
         <p className="text-zinc-400">

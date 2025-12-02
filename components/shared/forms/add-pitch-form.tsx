@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CardContent } from "@/components/ui/card";
-import { z } from "zod";
+import { set, z } from "zod";
 import { pitchFormSchema } from "@/lib/zodSchemas";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -102,7 +102,10 @@ export default function AddPitchForm() {
         toast.error(result.message);
       } else {
         toast.success(result.message);
-        router.push("/");
+        form.reset();
+        setFilesToUpload([]);
+        setPreviewImages([]);
+        router.push("/admin/pitches");
       }
     } catch (error) {
       console.error("Upload failed:", error);
