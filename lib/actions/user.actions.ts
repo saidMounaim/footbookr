@@ -14,7 +14,7 @@ export async function deleteUser(userId: string): Promise<ActionState> {
 
     if (!session) return { success: false, message: "Unauthorized" };
 
-    if (session.user.role !== "ADMIN") {
+    if (session.user.role !== "admin") {
       return { success: false, message: "Insufficient permissions" };
     }
 
